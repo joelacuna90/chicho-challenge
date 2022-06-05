@@ -21,12 +21,14 @@ class Mobile
 	{
 		if( empty($name) ) return;
 
-		$contact = ContactService::findByName($name);
+		$contact = ContactService::findByName($name);		
 
 		$this->provider->dialContact($contact);
 
 		return $this->provider->makeCall();
 	}
+
+	
 
 
 }
