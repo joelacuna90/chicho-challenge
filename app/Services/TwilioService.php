@@ -9,8 +9,8 @@ use Twilio\Rest\Client;
 class TwilioService
 {
 	
-	public static function sendSMS($number, $message)
-	{    
+    public static function sendSMS($number, $message)
+    {    
         $client   = new Guzzle();
         $response = $client->request('POST', 'http://demo8211737.mockable.io/', [
             'number'  => $number,
@@ -26,6 +26,6 @@ class TwilioService
         $sms->details = $response['msg'];
 
         return $sms;
-	}
+    }
 
 }
