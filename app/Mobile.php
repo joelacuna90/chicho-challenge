@@ -4,7 +4,7 @@ namespace App;
 
 use App\Interfaces\CarrierInterface;
 use App\Services\ContactService;
-
+use App\Services\TwilioService;
 
 class Mobile
 {
@@ -32,7 +32,7 @@ class Mobile
 		return $this->provider->makeCall();
 	}
 
-	public function sendSMS($number = '', $body = '')
+	public function sendSMS($number = '', $body = '', $twilio = false)
 	{		
 		if ( !($number) or !($body) ) {
 			throw new \Exception("the phone number and body are required to send an SMS.");
@@ -40,6 +40,9 @@ class Mobile
 		$validateNumber = ContactService::validateNumber($number);		
 		if (!$validateNumber) {
 			throw new \InvalidArgumentException("The phone number is invalid.");
+		}
+		if ($twilio) {
+			return TwilioService::sendSMS($number, $body);
 		}
 
 		return $this->provider->sendSMS($number, $body);

@@ -24,7 +24,7 @@ class MobileTest extends TestCase
 
 	protected function setUp(): void
 	{		
-		$this->provider = m::mock(CarrierInterface::class);
+		$this->provider 	  = m::mock(CarrierInterface::class);
 		$this->providerMovil1 = m::mock('overload:'.Mobile1::class, CarrierInterface::class);
 		$this->providerMovil2 = m::mock('overload:'.Mobile2::class, CarrierInterface::class);		
 	}
@@ -120,6 +120,24 @@ class MobileTest extends TestCase
 		$mobile = new Mobile($this->providerMovil2);
 
 		$this->assertInstanceOf(Call::class, $mobile->makeCallByName('Yeimy'));
+	}
+
+	/** @test */
+	public function it_send_message_twilio()
+	{
+		$sms = m::mock('overload:'.SMS::class);
+		$this->provider->shouldReceive('sendSMS')
+			->withArgs(['51992189089', 'This is a test message chicho challenge!', true])
+			->andReturn($sms);
+
+		m::mock('alias:'.ContactService::class)
+			->shouldReceive('validateNumber')
+			->withArgs(['51992189089'])
+			->andReturn(true);
+
+		$mobile = new Mobile($this->provider);
+
+		$this->assertInstanceOf(SMS::class, $mobile->sendSMS('51992189089', 'This is a test message chicho challenge!', true));
 	}
 
 
