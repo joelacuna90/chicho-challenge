@@ -12,9 +12,9 @@ class ContactService
 	{
 		// queries to the db
 	}
-
+	
 	public static function validateNumber(string $number): bool
 	{
-		// logic to validate numbers
+		// logic to validate numbers		
 	}
 }
