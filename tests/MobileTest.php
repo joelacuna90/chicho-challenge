@@ -40,5 +40,18 @@ class MobileTest extends TestCase
 		$mobile = new Mobile($provider);
 
 		$this->assertInstanceOf(Call::class, $mobile->makeCallByName('Yeimy'));
-	}	
+	}
+	
+	/** @test */	
+	public function it_returns_exception_when_contact_not_found()
+	{		
+		$provider = m::mock(CarrierInterface::class);
+		m::mock('alias:'.ContactService::class)
+			->shouldReceive('findByName')->withArgs(['Yeimy']);			
+		$this->expectException(\Exception::class);
+
+		$mobile = new Mobile($provider);
+		$mobile->makeCallByName('Yeimy');
+	}
+
 }
